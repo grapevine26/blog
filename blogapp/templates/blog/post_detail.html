@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+
+{% load static %}
+
+{% block breadcrumb %}{{ block.super }} > 12 Gift ideas for Christmas{% endblock %}
+
+{% block content %}
+
+    <div class="blog-item">
+        <h2>{{ post.title }}</h2>
+        <div class="info">
+            By <span><a href="#">{{ post.author }}</a></span> | In <span><a href="{{ post.category.pk }}">{{ post.category }}</a></span> | On
+            <span> {{ post.pub_date }}</span> | &#x1f441 <span>{{ post.view_count }} Views</span>
+        </div>
+        <p> {{ post.content|linebreaksbr }} </p>
+    </div>
+
+    <div class="form">
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <p><input type="submit" value="Submit"></p>
+        </form>
+    </div>
+
+    <div class="comments-list">
+        {% for comment in comments %}
+            <div class="comment">
+                <img src="{% static 'blog/images/avatar.png' %}" alt="avatar">
+                <div class="info">
+                    <p>{{ comment.by }}<span> . {{ comment.created_on }}</span></p>
+                    <p>{{ comment.content }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <div>
+                <h3>There are no comment</h3>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
